@@ -3,7 +3,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
     name="huojiweiguoba",  # 模块名称
-    version="2.0",  # 当前版本
+    version="3.0",  # 当前版本
     author="lbw",  # 作者
     author_email="819577544@qq.com",  # 作者邮箱
     description="一个非常NB的包",  # 模块简介
@@ -23,3 +23,6 @@ setuptools.setup(
     # ],
     # python_requires='>=3',
 )
+
+#python3 setup.py sdist bdist_wheel
+#twine upload dist/*
