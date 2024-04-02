@@ -10,6 +10,7 @@ from playhouse.pool import PooledMySQLDatabase
 root_dir = None
 def set_root_dir(path):
     '''设置根目录'''
+    global root_dir
     root_dir = path
 
 
