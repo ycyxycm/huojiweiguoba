@@ -7,7 +7,11 @@ from dotenv import find_dotenv, load_dotenv
 from playhouse.shortcuts import ReconnectMixin
 from playhouse.pool import PooledMySQLDatabase
 
-root_dir = os.path.dirname(__file__)
+root_dir = None
+def set_root_dir(path):
+    '''设置根目录'''
+    root_dir = path
+
 
 env_path = find_dotenv()
 assert env_path, "Not found .env file"
@@ -17,7 +21,7 @@ assert os.getenv('U'), "USER is None"
 assert os.getenv('P'), "PASSWORD is None"
 
 
-class ReconnectDatabase(ReconnectMixin, peewee.MySQLDatabase):
+class ReconnectDatabase(ReconnectMixin, PooledMySQLDatabase):
     '''防止连接丢失'''
     pass
 
