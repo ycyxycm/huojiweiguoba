@@ -6,7 +6,7 @@ setuptools.setup(
     version="3.0",  # 当前版本
     author="lbw",  # 作者
     author_email="819577544@qq.com",  # 作者邮箱
-    description="一个非常NB的包",  # 模块简介
+    description="人生有梦 各自精彩",  # 模块简介
     long_description=long_description,  # 模块详细介绍
     # long_description_content_type="text/markdown",  # 模块详细介绍格式
     url="https://github.com/ycyxycm/huojiweiguoba",  # 模块github地址
