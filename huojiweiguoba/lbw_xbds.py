@@ -1,21 +1,14 @@
 import copy
 import os.path
-from decimal import Decimal
-
+import inspect
 import peewee
+from decimal import Decimal
 from dotenv import find_dotenv, load_dotenv
 from playhouse.shortcuts import ReconnectMixin
 from playhouse.pool import PooledMySQLDatabase
 
-root_dir = None
-def set_root_dir(path):
-    '''设置根目录'''
-    global root_dir
-    root_dir = path
-
-
-env_path = find_dotenv()
-assert env_path, "Not found .env file"
+env_path = find_dotenv(os.path.join(os.path.expanduser('~'), '.isqlenv'))
+assert env_path, "Not found .isqlenv file"
 load_dotenv(env_path)
 assert os.getenv('HOST'), "HOST is None"
 assert os.getenv('U'), "USER is None"
@@ -42,7 +35,7 @@ class BaseModel(peewee.Model):
     @property
     def __idata__(self):
         data = copy.deepcopy(self.__data__)
-        for field_name,field_value in data.items():
+        for field_name, field_value in data.items():
             if isinstance(field_value, Decimal):
                 data[field_name] = float(field_value)
         return data
