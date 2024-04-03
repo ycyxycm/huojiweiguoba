@@ -14,11 +14,9 @@ assert os.getenv('HOST'), "HOST is None"
 assert os.getenv('U'), "USER is None"
 assert os.getenv('P'), "PASSWORD is None"
 
-
 class ReconnectDatabase(ReconnectMixin, PooledMySQLDatabase):
     '''防止连接丢失'''
     pass
-
 
 db = ReconnectDatabase(
     host=os.getenv('HOST'),
@@ -26,6 +24,8 @@ db = ReconnectDatabase(
     password=os.getenv('P'),
     database=os.getenv('DB')
 )
+
+
 
 
 class BaseModel(peewee.Model):
@@ -45,10 +45,14 @@ class BaseModel(peewee.Model):
         for key in cls.unique_keys:
             assert key in kwargs, f"{key} is not in kwargs"
         try:
-            obj, created = cls.get_or_create(**{x: kwargs[x] for x in cls.unique_keys})
-            if created:
+            obj = cls.select()
+            for key, value in kwargs.items():
+                obj = obj.where(getattr(cls, key) == value)
+            if not obj:
+                cls.create(**kwargs)
                 return "新增成功"
             else:
+                obj = obj.get()
                 for key, value in kwargs.items():
                     setattr(obj, key, value)
                 obj.save()
@@ -66,7 +70,7 @@ class Shops(BaseModel):
     shop_pallet = peewee.CharField()
     shop_cookies = peewee.TextField()
     shop_notes = peewee.CharField()
-    is_open = peewee.BooleanField()
+    is_open = peewee.BooleanField(default=1)
 
 
 class PddPlatform(BaseModel):
@@ -88,8 +92,7 @@ class PddPlatform(BaseModel):
         )
 
 
-class Xbds:
-    def __init__(self):
-        db.connect()
-        db.create_tables([Shops], safe=True)
-        db.create_tables([PddPlatform], safe=True)
+
+db.connect()
+db.create_tables([Shops], safe=True)
+db.create_tables([PddPlatform], safe=True)
