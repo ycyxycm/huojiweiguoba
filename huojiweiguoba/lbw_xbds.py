@@ -1,6 +1,8 @@
 import copy
 import os.path
 import inspect
+import traceback
+
 import peewee
 from decimal import Decimal
 from dotenv import find_dotenv, load_dotenv
@@ -46,8 +48,9 @@ class BaseModel(peewee.Model):
             assert key in kwargs, f"{key} is not in kwargs"
         try:
             obj = cls.select()
-            for key, value in kwargs.items():
-                obj = obj.where(getattr(cls, key) == value)
+            for key in cls.unique_keys:
+                assert key in kwargs, f"{key} is not in kwargs"
+                obj = obj.where(getattr(cls, key) == kwargs[key])
             if not obj:
                 cls.create(**kwargs)
                 return "新增成功"
@@ -57,21 +60,25 @@ class BaseModel(peewee.Model):
                     setattr(obj, key, value)
                 obj.save()
                 return "更新成功"
-        except peewee.IntegrityError:
+        except peewee.IntegrityError as e:
+            traceback.print_exc()
             return "创建或更新失败"
 
     class Meta:
         database = db
 
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if cls.unique_keys:
+            cls._meta.indexes = [(tuple(cls.unique_keys), True)]
 
 class Shops(BaseModel):
     unique_keys = ['shop_name']
-    shop_name = peewee.CharField(unique=True)
+    shop_name = peewee.CharField()
     shop_pallet = peewee.CharField()
     shop_cookies = peewee.TextField()
     shop_notes = peewee.CharField()
     is_open = peewee.BooleanField(default=1)
-
 
 class PddPlatform(BaseModel):
     unique_keys = ['shop_id', 'date']
@@ -85,13 +92,6 @@ class PddPlatform(BaseModel):
     qztg = peewee.DecimalField(decimal_places=2, max_digits=10, verbose_name='全站推广')
     bztg = peewee.DecimalField(decimal_places=2, max_digits=10, verbose_name='标准推广')
     sptg = peewee.DecimalField(decimal_places=2, max_digits=10, verbose_name='商品推广')
-
-    class Meta:
-        indexes = (
-            (("shop_id", "date"), True),
-        )
-
-
 
 db.connect()
 db.create_tables([Shops], safe=True)
