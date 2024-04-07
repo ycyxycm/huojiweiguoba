@@ -93,6 +93,14 @@ class PddPlatform(BaseModel):
     bztg = peewee.DecimalField(decimal_places=2, max_digits=10, verbose_name='标准推广')
     sptg = peewee.DecimalField(decimal_places=2, max_digits=10, verbose_name='商品推广')
 
+class JdPlatform(BaseModel):
+    unique_keys = ['shop_id', 'date']
+    shop_id = peewee.IntegerField()
+    date = peewee.DateField()
+    htkc = peewee.DecimalField(decimal_places=2, max_digits=10, verbose_name='海投+快车推广')
+    jbkk = peewee.DecimalField(decimal_places=2, max_digits=10, verbose_name='价保扣扣')
+
 db.connect()
 db.create_tables([Shops], safe=True)
 db.create_tables([PddPlatform], safe=True)
+db.create_tables([JdPlatform], safe=True)
