@@ -9,22 +9,22 @@ from dotenv import find_dotenv, load_dotenv
 from playhouse.shortcuts import ReconnectMixin
 from playhouse.pool import PooledMySQLDatabase
 
-env_path = find_dotenv(os.path.join(os.path.expanduser('~'), '.isqlenv'))
-assert env_path, "Not found .isqlenv file"
+env_path = find_dotenv(os.path.join(os.path.expanduser('~'), '.huojiweiguoba'))
+assert env_path, "Not found .huojiweiguoba file"
 load_dotenv(env_path)
-assert os.getenv('HOST'), "HOST is None"
-assert os.getenv('U'), "USER is None"
-assert os.getenv('P'), "PASSWORD is None"
+assert os.getenv('MYSQL_HOST'), "MYSQL_HOST is None"
+assert os.getenv('MYSQL_U'), "MYSQL_USER is None"
+assert os.getenv('MYSQL_P'), "MYSQL_PASSWORD is None"
 
 class ReconnectDatabase(ReconnectMixin, PooledMySQLDatabase):
     '''防止连接丢失'''
     pass
 
 db = ReconnectDatabase(
-    host=os.getenv('HOST'),
-    user=os.getenv('U'),
-    password=os.getenv('P'),
-    database=os.getenv('DB')
+    host=os.getenv('MYSQL_HOST'),
+    user=os.getenv('MYSQL_U'),
+    password=os.getenv('MYSQL_P'),
+    database=os.getenv('MYSQL_DB')
 )
 
 
