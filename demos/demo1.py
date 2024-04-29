@@ -41,7 +41,7 @@ def base64_to_image(base64_string):
 
 
 if __name__ == "__main__":
-    pass
+
     # stamp_items = {
     #     "搞怪笑脸_K": {
     #         "搞怪笑脸_K_": "/Users/hwj/工作/ps-project/rabbitmq/短裤-冰丝四面弹短裤/印花已完成20240307175543/搞怪笑脸_K_/搞怪笑脸_K_.png"
@@ -73,7 +73,8 @@ if __name__ == "__main__":
     #     name="批次1",
     #     uname="卢本伟"
     # )
-    # rabbitmq1 = RabbitMQ("卢本伟9")
+    rabbitmq1 = RabbitMQ("卢本伟9")
+    rabbitmq1.on_line()
     # print(len(rabbitmq1.get_queue_info()))
     # print(rabbitmq1.get_queue_running_info())
 

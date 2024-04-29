@@ -183,6 +183,10 @@ class RabbitMQ:
             queue=self.queue_name
         )
 
+    def on_line(self):
+        method_frame = self.channel.queue_declare(queue=self.queue_name,passive=True)
+        print("在线",method_frame.__dict__)
+
     def publish(self, data: PsdTask):
         '''生产者'''
         self.channel.queue_declare(queue=self.queue_name, durable=True)
@@ -194,6 +198,7 @@ class RabbitMQ:
             properties=pika.BasicProperties(delivery_mode=2)
         )
         print("任务已发送")
+
         self.connection.close()
 
     def consume(self, func: Callable, **kwargs):
@@ -241,7 +246,13 @@ class RabbitMQ:
 
 
 if __name__ == '__main__':
-    # print(rds.running_all())
-    print(rds.__alldata__())
+    # while True:
+    #     time.sleep(1.5)
+    #     print(len(rds.running_all()))
+    pass
+    # print(rds.__alldata__())
     # rds.client.delete('pscript')
     # print(rds.client.llen('pscript'))
+
+
+
