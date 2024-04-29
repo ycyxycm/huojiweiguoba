@@ -144,7 +144,8 @@ class RabbitMQ:
                 port=self.port,
                 credentials=pika.PlainCredentials(self.user, self.password),
                 client_properties={'connection_name': conn_name},
-                heartbeat=0
+                heartbeat=0,
+                blocked_connection_timeout=0
             )
         )
         self.channel = self.connection.channel()
