@@ -158,9 +158,6 @@ class RabbitMQ:
         '''获取队列信息'''
         result = []
         for method_frame, header_frame, body in self.channel.consume(self.queue_name, inactivity_timeout=3):
-            print("\nmethod_frame", method_frame)
-            print("header_frame", header_frame)
-            print("body", body)
             if not body:
                 break
             result.append(pickle.loads(body).__idata__)
@@ -186,7 +183,7 @@ class RabbitMQ:
 
     def on_line(self):
         method_frame = self.channel.queue_declare(queue=self.queue_name,passive=True)
-        print("在线",method_frame.__dict__)
+        print("在线",method_frame.method.message_count)
 
     def publish(self, data: PsdTask):
         '''生产者'''

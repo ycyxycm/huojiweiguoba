@@ -1,5 +1,5 @@
 def print_name(name):
     print(name)
 import pyotp
-totp = pyotp.TOTP("base32secret3232")
+totp = pyotp.TOTP("MOCLJXVN4OSLUUPI3TC6CY237UDIFSAN")
 print(totp.now())
