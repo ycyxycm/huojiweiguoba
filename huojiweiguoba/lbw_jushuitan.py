@@ -672,7 +672,7 @@ class ErpApi(object):
 
 
 if __name__ == "__main__":
-    ef = ErpApi(u="17671611495", p="Game1022@")
+    ef = ErpApi(u="", p="")
     # 0.批量更新实体编码
     import pandas as pd
     df=pd.read_excel(r"/Users/hwj/Desktop/缺成本价的--商品资料_20240428203443_40034778_1.xlsx").to_dict(orient='records')
