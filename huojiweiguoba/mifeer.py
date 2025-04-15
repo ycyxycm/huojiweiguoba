@@ -82,11 +82,11 @@ class BaseModel(peewee.Model):
 class Shops(BaseModel):
     id = peewee.PrimaryKeyField()
     plat_name = peewee.CharField(verbose_name='平台名称', null=True)
-    finance_shop_name = peewee.CharField(verbose_name='财务店铺名称', null=True)
-    erp_shop_name = peewee.CharField(verbose_name='ERP店铺名称', null=True)
-    erp_shop_id = peewee.IntegerField(verbose_name='ERP店铺id', null=True)
+    finance_shop_name = peewee.CharField(verbose_name='财务店铺名称', null=True,unique=True)
+    erp_shop_name = peewee.CharField(verbose_name='ERP店铺名称', null=True,unique=True)
+    erp_shop_id = peewee.IntegerField(verbose_name='ERP店铺id', null=True,unique=True)
     plat_shop_name = peewee.CharField(verbose_name='平台店铺名称', null=True)
-    plat_shop_id = peewee.IntegerField(verbose_name='平台店铺id', null=True)
+    plat_shop_id = peewee.IntegerField(verbose_name='平台店铺id', null=True,unique=True)
     cookies_1 = peewee.TextField(verbose_name='cookie1', null=True)
     cookies_2 = peewee.TextField(verbose_name='cookie2', null=True)
     cookies_3 = peewee.TextField(verbose_name='cookie3', null=True)
@@ -133,7 +133,7 @@ class ShopsSdk:
         )
         return {"status": True, "message": "新增成功", "data": create_resp}
 
-    def update(self, id, p_name,fs_name=None, es_name: str = None, es_id: int = None, ps_name: str = None, ps_id: int = None,
+    def update(self, id, p_name:str=None,fs_name=None, es_name: str = None, es_id: int = None, ps_name: str = None, ps_id: int = None,
                c1: str = None,
                c2: str = None, c3: str = None):
         '''更新'''
