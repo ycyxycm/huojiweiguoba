@@ -132,14 +132,13 @@ class ReadListingInfo:
                     sheet_df = sheet_df.astype(str)
                     sheet_items = sheet_df.to_dict('records')
                     file_items[sheet['sheet_name']] = sheet_items
-            # if x['file_type']=="txt":
-            #     file_list = []
-            #     with path.open(encoding='utf-8') as f:
-            #         for line in f.readlines():
-            #             file_list.append([str(i) for i in line.strip().split("/")])
-            #     file_items = [dict(zip(file_list[0], i)) for i in file_list[1:]]
+            elif x['file_type'] == "mp4":
+                if Path(path).is_file():
+                    file_items = {"local_path": path.__str__()}
+                else:
+                    file_items = {}
             else:
-                raise ValueError(f"文件类型应该为xlsx，目前为{x['file_type']},联系管理员增加其他类型文件读取")
+                raise ValueError(f"文件类型应该为[xlsx,mp4]，目前为{x['file_type']},联系管理员增加其他类型文件读取")
             # 文件新增到对应对象中
             self.__setattr__(x['attr_name'], file_items)
 
