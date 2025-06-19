@@ -33,5 +33,5 @@ def build_and_upload_package_win():
         print(f"包上传失败，返回码: {upload_result.returncode}")
 
 if __name__ == "__main__":
-    build_and_upload_package_mac()
-    # build_and_upload_package_win()
+    # build_and_upload_package_mac()
+    build_and_upload_package_win()

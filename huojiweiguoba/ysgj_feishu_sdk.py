@@ -96,21 +96,21 @@ class FeiShuOpenApi:
         url = f"https://open.feishu.cn/open-apis/drive/v1/files"
         params = {}
 
-    def _upload_cloud_document(self,file_path:str,parent_node:str):
-        '''上传文件到云文档'''
-        url = f"https://open.feishu.cn/open-apis/drive/v1/files/upload_all"
+    def _upload_cloud_document(self, file_path: str, parent_node: str,parent_type:str='bitable_image'):
+        '''上传文件到云文档（多维表格）'''
+        url = f"https://open.feishu.cn/open-apis/drive/v1/medias/upload_all"
         file_size = os.path.getsize(file_path)
         form = {
             'file_name': Path(file_path).name,
-                'parent_type': 'explorer',
-                'parent_node': parent_node,
-                'size': str(file_size),
-                'file': (open(file_path, 'rb'))
+            'parent_type': parent_type,
+            'parent_node': parent_node,
+            'size': str(file_size),
+            'file': (open(file_path, 'rb'))
         }
         multi_form = MultipartEncoder(form)
         headers = self.headers
         headers['Content-Type'] = multi_form.content_type
-        resp = self.ask.post(url,headers=headers,data=multi_form).json()
+        resp = self.ask.post(url, headers=headers, data=multi_form).json()
         self._verify_response(resp, "上传文件到云文档")
         return resp['data']
 
