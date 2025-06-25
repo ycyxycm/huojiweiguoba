@@ -165,17 +165,3 @@ class FeiShuConnector(FeiShuOpenApi):
         table_id = self.table_tree[table_name]['table_id']
         resp = self._update_multi_dimension_table_many_data(self.multi_id, table_id, fields_data)
         return resp
-
-if __name__ == "__main__":
-    app_id = "cli_a70182e200a5500e"
-    app_secret = "yVkX76uz0KieX4suhzzldhMf2GCFykhK"
-    multi_id = "RhOyb7k13aPv3fsBZxkchxAPnsf"
-    fc = FeiShuConnector(app_id, app_secret, multi_id)
-
-
-    # token = fc._query_root_folder()
-    # print(token)
-    # raise 1
-    # token = f"nodcnEXfe77ywszr2K51wsgMVqb"
-    # r = fc._upload_cloud_document(fr"C:\Users\Administrator\Desktop\Python_Work\listing\test\test\1.png",token)
-    # print(r)
